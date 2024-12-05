@@ -1,2 +1,2 @@
-# Trabalho_Final_C216
-Sistema de gerenciamento de biblioteca
+# GES318-C216-L1-2024.2
+Repositorio - Sistema Distribuidos 
