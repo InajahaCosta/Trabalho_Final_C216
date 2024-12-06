@@ -53,7 +53,7 @@ async def gerar_id_emprestimo(conn: asyncpg.Connection):
     return await conn.fetchval(query)
     
 
-# 1. Adicionar um novo livro
+# Adicionar um novo livro
 @app.post("/api/v1/livros/", status_code=201)
 async def adicionar_livro(livro: Livro):
     conn = await get_database()
@@ -76,12 +76,11 @@ async def adicionar_livro(livro: Livro):
         await conn.close()
 
 
-# 2. Listar todos os itens
+# Listar todos os itens
 @app.get("/api/v1/livros/", response_model=List[Livro])
 async def listar_livros():
     conn = await get_database()
     try:
-        # Buscar todos os itens no banco de dados
         query = "SELECT * FROM livros"
         rows = await conn.fetch(query)
         livros = [dict(row) for row in rows]
@@ -89,7 +88,7 @@ async def listar_livros():
     finally:
         await conn.close()
 
-# 3. Buscar livro por título ou autor
+# Buscar livro por título ou autor
 @app.get("/api/v1/livros/busca/")
 async def buscar_livro(titulo: Optional[str] = None, autor: Optional[str] = None):
     conn = await get_database()
@@ -102,19 +101,18 @@ async def buscar_livro(titulo: Optional[str] = None, autor: Optional[str] = None
     finally:
         await conn.close()
 
-# 6. Atualizar um livro existente
+# Atualizar um livro existente
 @app.put("/api/v1/livros/{livro_id}", response_model=Livro)
 async def atualizar_livro(livro_id: int, livro: Livro):
     conn = await get_database()
     try:
-        # Verificar se o livro existe
+        
         query_verificar = "SELECT * FROM livros WHERE id = $1"
         livro_existente = await conn.fetchrow(query_verificar, livro_id)
         
         if not livro_existente:
             raise HTTPException(status_code=404, detail="Livro não encontrado")
 
-        # Atualizar o livro no banco de dados
         query_atualizar = """
             UPDATE livros 
             SET titulo = $1, autor = $2, ano = $3, genero = $4, quantidade = $5
@@ -123,7 +121,6 @@ async def atualizar_livro(livro_id: int, livro: Livro):
         """
         updated_row = await conn.fetchrow(query_atualizar, livro.titulo, livro.autor, livro.ano, livro.genero, livro.quantidade, livro_id)
 
-        # Retornar o livro atualizado
         return dict(updated_row)
     
     except Exception as e:
@@ -132,19 +129,17 @@ async def atualizar_livro(livro_id: int, livro: Livro):
         await conn.close()
 
 
-# 7. Remover um item pelo ID
+# Remover um item pelo ID
 @app.delete("/api/v1/livros/{livro_id}", status_code=204)
 async def excluir_livro(livro_id: int):
     conn = await get_database()
     try:
-        # Verifica se o livro existe antes de tentar excluir
         query_verificar = "SELECT * FROM livros WHERE id = $1"
         livro_existente = await conn.fetchrow(query_verificar, livro_id)
 
         if not livro_existente:
             raise HTTPException(status_code=404, detail="Livro não encontrado")
 
-        # Exclui o livro
         query_excluir = "DELETE FROM livros WHERE id = $1"
         async with conn.transaction():
             await conn.execute(query_excluir, livro_id)
@@ -156,7 +151,7 @@ async def excluir_livro(livro_id: int):
         await conn.close()
 
 
-# 4. Emprestar um livro
+#Emprestar um livro
 @app.post("/api/v1/emprestimos/")
 async def emprestar_livro(emprestimo: Emprestimo):
     conn = await get_database()
@@ -201,12 +196,12 @@ async def listar_emprestimos():
     finally:
         await conn.close()
 
-# 5. Devolver um livro
+# Devolver um livro
 @app.post("/api/v1/devolucoes/")
 async def devolver_livro(emprestimo: Emprestimo):
     conn = await get_database()
     try:
-        # Verificar se o empréstimo existe
+        
         query_emprestimo = """
             SELECT * FROM emprestimos 
             WHERE id_livro = $1 AND nome_usuario = $2 AND data_devolucao IS NULL
@@ -215,7 +210,6 @@ async def devolver_livro(emprestimo: Emprestimo):
         if not registro_emprestimo:
             raise HTTPException(status_code=404, detail="Empréstimo não encontrado ou já devolvido")
 
-        # Registrar a devolução (atualizar a data de devolução)
         query_devolucao = """
             UPDATE emprestimos 
             SET data_devolucao = CURRENT_TIMESTAMP 
@@ -223,7 +217,7 @@ async def devolver_livro(emprestimo: Emprestimo):
         """
         await conn.execute(query_devolucao, emprestimo.id_livro, emprestimo.nome_usuario)
 
-        # Atualizar a quantidade do livro
+        
         query_atualizar_quantidade = """
             UPDATE livros SET quantidade = quantidade + 1 WHERE id = $1
         """
@@ -236,16 +230,14 @@ async def devolver_livro(emprestimo: Emprestimo):
         await conn.close()
 
 
-# 8. Resetar o repositório de livros
+#Resetar o repositório de livros
 @app.delete("/api/v1/livros/")
 async def resetar_livros():
     init_sql = os.getenv("INIT_SQL", "/app/db/init.sql")
     conn = await get_database()
     try:
-        # Read SQL file contents
         with open(init_sql, 'r') as file:
             sql_commands = file.read()
-        # Execute SQL commands
         await conn.execute(sql_commands)
         return {"message": "Banco de dados limpo com sucesso!"}
     finally:
