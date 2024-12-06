@@ -29,6 +29,6 @@ services:
     build: ./frontend
     restart: always
     ports:
-      - "3000:3000"
+      - "3003:3003"
     depends_on:
       - backend

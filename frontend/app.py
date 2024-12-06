@@ -27,10 +27,10 @@ def inserir_item():
     quantidade = request.form['quantidade']
 
     payload = {
-        'titulo' : titulo,
-        'autor' : autor,
+        'titulo': titulo,
+        'autor': autor,
         'ano': ano,
-        'genero' : genero,
+        'genero': genero,
         'quantidade': quantidade
     }
 
@@ -51,27 +51,90 @@ def listar_livros():
         livros = []
     return render_template('estoque.html', livros=livros)
 
+# Rota para exibir o formulário de empréstimo e processá-lo
+@app.route('/emprestimo', methods=['GET', 'POST'])
+def emprestimo():
+    if request.method == 'POST':
+        # Depuração para verificar o que está sendo enviado
+        print("Form data recebida:", request.form)
 
-@app.route("/emprestimo/", methods=["POST"])
-def emprestar_livro():
-    try:
-        # Recebe os dados da requisição
-        data = request.get_json()
-        id_livro = data.get("id_livro")
-        nome_usuario = data.get("nome_usuario")
-        
-        # Lógica para registrar o empréstimo (exemplo simples)
-        # Aqui você pode integrar com banco de dados ou lógica de validação
-        if not id_livro or not nome_usuario:
-            return jsonify({"error": "ID do livro e nome do usuário são necessários"}), 400
-        
-        # Suponha que o empréstimo seja feito com sucesso
-        return jsonify({"message": f"Empréstimo do livro {id_livro} para {nome_usuario} realizado com sucesso!"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Recebe os dados do formulário
+        livro_id = request.form.get('livro')  # Usa .get para evitar KeyError
+        nome_usuario = request.form.get('nome_usuario')  # Usa .get
 
-if __name__ == "__main__":
-    app.run(debug=True)
+        # Verifica se os dados são válidos
+        if not livro_id or not nome_usuario:
+            print("Erro: Dados inválidos no formulário")
+            return "Dados inválidos no formulário", 400
+
+        # Cria o payload para enviar à API
+        payload = {
+            'id_livro': int(livro_id),  # Converte para inteiro
+            'nome_usuario': nome_usuario
+        }
+
+        print("Payload para API:", payload)
+
+        # Envia os dados para a API
+        response = requests.post(f'{API_BASE_URL}/api/v1/emprestimos/', json=payload)
+
+        if response.status_code == 200:
+            api_response = response.json()  # Pega a resposta JSON da API
+            print("Sucesso na API:", api_response)
+            return render_template('emprestimo.html', mensagem=f"Emprestimo realizado com sucesso!", sucesso=True)
+        else:
+            print("Erro ao realizar a emprestimo, status code:", response.status_code)
+            return render_template('emprestimo.html', mensagem=f"Erro ao realizar emprestimo. Status code: {response.status_code}", sucesso=False)
+
+    # Caso seja GET, exibe o formulário de empréstimo
+    response = requests.get(f'{API_BASE_URL}/api/v1/livros/')
+    livros = response.json() if response.status_code == 200 else []
+
+    return render_template('emprestimo.html', livros=livros)
+
+
+# Rota para exibir o formulário de empréstimo e processá-lo
+@app.route('/devolucao', methods=['GET', 'POST'])
+def devolucao():
+    if request.method == 'POST':
+        # Depuração para verificar o que está sendo enviado
+        print("Form data recebida:", request.form)
+
+        # Recebe os dados do formulário
+        livro_id = request.form.get('livro')  # Usa .get para evitar KeyError
+        nome_usuario = request.form.get('nome_usuario')  # Usa .get
+
+        # Verifica se os dados são válidos
+        if not livro_id or not nome_usuario:
+            print("Erro: Dados inválidos no formulário")
+            return render_template('devolucao.html', mensagem="Dados inválidos no formulário", sucesso=False)
+
+        # Cria o payload para enviar à API
+        payload = {
+            'id_livro': int(livro_id),  # Converte para inteiro
+            'nome_usuario': nome_usuario
+        }
+
+        print("Payload para API:", payload)
+
+        # Envia os dados para a API
+        response = requests.post(f'{API_BASE_URL}/api/v1/devolucoes/', json=payload)
+
+        if response.status_code == 200:
+            api_response = response.json()  # Pega a resposta JSON da API
+            print("Sucesso na API:", api_response)
+            return render_template('devolucao.html', mensagem=f"Devolução realizada com sucesso!", sucesso=True)
+        else:
+            print("Erro ao realizar a devolução, status code:", response.status_code)
+            return render_template('devolucao.html', mensagem=f"Erro ao realizar a devolução. Status code: {response.status_code}", sucesso=False)
+
+    # Caso seja GET, exibe o formulário de devolução
+    response = requests.get(f'{API_BASE_URL}/api/v1/livros/')
+    livros = response.json() if response.status_code == 200 else []
+
+    return render_template('devolucao.html', livros=livros, mensagem=None, sucesso=None)
+
+
 
 # Rota para resetar o banco de dados
 @app.route('/reset-database', methods=['GET'])
@@ -82,7 +145,7 @@ def resetar_database():
         return render_template('confirmacao.html')
     else:
         return "Erro ao resetar o banco de dados", 500
-    
 
+# Bloco principal
 if __name__ == '__main__':
-    app.run(debug=True, port=3000, host='0.0.0.0')
+    app.run(debug=True, port=3003, host='0.0.0.0')
