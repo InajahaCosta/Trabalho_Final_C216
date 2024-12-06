@@ -1,0 +1,420 @@
+{
+	"info": {
+		"_postman_id": "8cfdfd6a-44ba-4c8b-9b7b-9065094c6a9a",
+		"name": "Projeto_final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33850745"
+	},
+	"item": [
+		{
+			"name": "Resetar o banco",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response should confirm deletion\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql('Banco de dados limpo com sucesso!');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/livros/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar livro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Response should contain confirmation message\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql('Livro cadastrado com sucesso!');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"titulo\": \"Cinderela\",\n  \"autor\": \"Poliana\",\n  \"ano\": 1996,\n  \"genero\": \"romance\",\n  \"quantidade\": 10\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/livros/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar todos os livros",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/livros/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar livro por autor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Valida status 200 e estrutura do retorno\", function () {",
+							"    pm.response.to.have.status(200); // Verifica se o status é 200",
+							"    const jsonData = pm.response.json(); // Obtém o corpo da resposta",
+							"    pm.expect(jsonData).to.be.an(\"array\"); // Verifica se é um array",
+							"});",
+							"",
+							"pm.test(\"Valida status 404 e mensagem de erro\", function () {",
+							"    if (pm.response.status === 404) {",
+							"        const jsonData = pm.response.json(); // Obtém o corpo da resposta",
+							"        pm.expect(jsonData.detail).to.eql(\"Nenhum livro encontrado.\"); // Verifica a mensagem de erro",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/livros/busca/?autor=J.K. Rowling",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						"busca",
+						""
+					],
+					"query": [
+						{
+							"key": "autor",
+							"value": "J.K. Rowling"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar emprestimo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should contain confirmation message\", function () {",
+							"    pm.expect(pm.response.json().message).to.eql('Livro emprestado com sucesso!');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_livro\": 3,\n  \"nome_usuario\": \"Maria luisa\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/emprestimos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"emprestimos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar emprestimos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be a list\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/emprestimos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"emprestimos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar devolução",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Valida status 200 e estrutura do retorno\", function () {",
+							"    if (pm.response.status === 200) { // Verifica se o status é 200",
+							"    const jsonData = pm.response.json(); // Obtém o corpo da resposta",
+							"    pm.expect(jsonData.detail).to.eql(\"Livro devolvido com sucesso!\"); }",
+							"});",
+							"",
+							"pm.test(\"Valida status 500 e mensagem de erro\", function () {",
+							"    if (pm.response.status === 500) {",
+							"        const jsonData = pm.response.json(); // Obtém o corpo da resposta",
+							"        pm.expect(jsonData.detail).to.eql(\"Erro ao devolver livro: 404: Empréstimo não encontrado ou já devolvido\"); // Verifica a mensagem de erro",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id_livro\": 3,\n  \"nome_usuario\": \"Maria luisa\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/devolucoes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"devolucoes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir livro pelo id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/livros/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar livro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Valida status 200 e estrutura do retorno\", function () {",
+							"    pm.response.to.have.status(200); // Verifica se o status é 200",
+							"    const jsonData = pm.response.json(); // Obtém o corpo da resposta",
+							"",
+							"    if (Array.isArray(jsonData)) {",
+							"        pm.expect(jsonData).to.be.an(\"array\"); // Verifica se é um array",
+							"        pm.expect(jsonData).to.have.length.greaterThan(0); // Verifica se não está vazio",
+							"    } else {",
+							"        pm.expect(jsonData).to.be.an(\"object\"); // Verifica se é um objeto",
+							"        pm.expect(jsonData).to.have.property(\"id\"); // Verifica a propriedade \"id\"",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"id\": 2,\n        \"titulo\": \"Orgulho e Preconceito\",\n        \"autor\": \"Jane Austen\",\n        \"ano\": 1813,\n        \"genero\": \"Romance\",\n        \"quantidade\": 10\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/livros/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"livros",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

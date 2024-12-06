@@ -1,0 +1,334 @@
+{
+	"id": "e80366bf-6813-4da8-af73-d3094a13bb26",
+	"name": "Projeto_final",
+	"timestamp": "2024-12-06T19:40:31.967Z",
+	"collection_id": "33850745-8cfdfd6a-44ba-4c8b-9b7b-9065094c6a9a",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 15,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-12-06T19:40:26.133Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "8fac4e12-f39a-446f-ac90-ab1c438b8c71",
+			"name": "Resetar o banco",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 349,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				349
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		},
+		{
+			"id": "aa2e5bee-0094-48e4-9fae-0473c4c70c1a",
+			"name": "Cadastrar livro",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 288,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response should contain confirmation message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain confirmation message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				288
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response should contain confirmation message": true
+				}
+			]
+		},
+		{
+			"id": "b2575cae-af11-46f5-bf4c-3db5c5f02341",
+			"name": "listar todos os livros",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 253,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should be a list": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be a list": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				253
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "8cdef45d-8fda-4331-adab-aa313d2f116d",
+			"name": "listar livro por autor",
+			"url": "http://127.0.0.1:8000/api/v1/livros/busca/?autor=J.K. Rowling",
+			"time": 212,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Valida status 200 e estrutura do retorno": true,
+				"Valida status 404 e mensagem de erro": true
+			},
+			"testPassFailCounts": {
+				"Valida status 200 e estrutura do retorno": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Valida status 404 e mensagem de erro": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				212
+			],
+			"allTests": [
+				{
+					"Valida status 200 e estrutura do retorno": true,
+					"Valida status 404 e mensagem de erro": true
+				}
+			]
+		},
+		{
+			"id": "1b37cc8c-82bc-4c88-972d-aa130ddb302a",
+			"name": "Realizar emprestimo",
+			"url": "http://localhost:8000/api/v1/emprestimos/",
+			"time": 267,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should contain confirmation message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain confirmation message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				267
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should contain confirmation message": true
+				}
+			]
+		},
+		{
+			"id": "38343ae5-bd5f-4810-b613-6468e5d5c611",
+			"name": "Listar emprestimos",
+			"url": "http://localhost:8000/api/v1/emprestimos/",
+			"time": 274,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should be a list": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be a list": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				274
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "d1b2877d-8fe3-461d-b1ee-61d4b6265651",
+			"name": "Realizar devolução",
+			"url": "http://localhost:8000/api/v1/devolucoes/",
+			"time": 271,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Valida status 200 e estrutura do retorno": true,
+				"Valida status 500 e mensagem de erro": true
+			},
+			"testPassFailCounts": {
+				"Valida status 200 e estrutura do retorno": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Valida status 500 e mensagem de erro": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				271
+			],
+			"allTests": [
+				{
+					"Valida status 200 e estrutura do retorno": true,
+					"Valida status 500 e mensagem de erro": true
+				}
+			]
+		},
+		{
+			"id": "16563bba-a648-4625-9171-f6882e682577",
+			"name": "Excluir livro pelo id",
+			"url": "http://localhost:8000/api/v1/livros/1",
+			"time": 269,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				269
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "95e57073-993b-4787-bb07-3afdb5731a55",
+			"name": "Atualizar livro",
+			"url": "http://localhost:8000/api/v1/livros/2",
+			"time": 269,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Valida status 200 e estrutura do retorno": true
+			},
+			"testPassFailCounts": {
+				"Valida status 200 e estrutura do retorno": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				269
+			],
+			"allTests": [
+				{
+					"Valida status 200 e estrutura do retorno": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2452,
+	"collection": {
+		"requests": [
+			{
+				"id": "8fac4e12-f39a-446f-ac90-ab1c438b8c71",
+				"method": "DELETE"
+			},
+			{
+				"id": "aa2e5bee-0094-48e4-9fae-0473c4c70c1a",
+				"method": "POST"
+			},
+			{
+				"id": "b2575cae-af11-46f5-bf4c-3db5c5f02341",
+				"method": "GET"
+			},
+			{
+				"id": "8cdef45d-8fda-4331-adab-aa313d2f116d",
+				"method": "GET"
+			},
+			{
+				"id": "1b37cc8c-82bc-4c88-972d-aa130ddb302a",
+				"method": "POST"
+			},
+			{
+				"id": "38343ae5-bd5f-4810-b613-6468e5d5c611",
+				"method": "GET"
+			},
+			{
+				"id": "d1b2877d-8fe3-461d-b1ee-61d4b6265651",
+				"method": "POST"
+			},
+			{
+				"id": "16563bba-a648-4625-9171-f6882e682577",
+				"method": "DELETE"
+			},
+			{
+				"id": "95e57073-993b-4787-bb07-3afdb5731a55",
+				"method": "PUT"
+			}
+		]
+	}
+}
