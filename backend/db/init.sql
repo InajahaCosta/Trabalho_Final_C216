@@ -18,6 +18,9 @@ CREATE TABLE "emprestimos" (
     "data_devolucao" TIMESTAMP
 );
 
-INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('1984', 'George Orwell', 1949, 'Distopia', 5);
+INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 1997, 'Fantasia', 5);
 INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('Orgulho e Preconceito', 'Jane Austen', 1813, 'Romance', 3);
 INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('O Senhor dos Anéis', 'J.R.R. Tolkien', 1954, 'Fantasia', 2);
+INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('Os Bridgertons', 'Julia Quinn', 2000, 'Romance', 5);
+INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('Para Todos os Garotos Que Já Amei', 'Jenny Han', 2014, 'Romance', 3);
+INSERT INTO "livros" ("titulo", "autor", "ano", "genero", "quantidade")  VALUES ('The Witcher', 'Andrzej Sapkowski', 1992, 'Fantasia', 2);

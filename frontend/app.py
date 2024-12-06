@@ -134,6 +134,23 @@ def devolucao():
 
     return render_template('devolucao.html', livros=livros, mensagem=None, sucesso=None)
 
+@app.route('/excluir', methods=['GET', 'POST'])
+def excluir_livro():
+    if request.method == 'POST':
+        livro_id = request.form.get('livro_id')
+        if not livro_id:
+            return render_template('excluir.html', livros=[], mensagem="Livro não selecionado", sucesso=False)
+        
+        response = requests.delete(f'{API_BASE_URL}/api/v1/livros/{livro_id}')
+        if response.status_code == 204:
+            return render_template('excluir.html', livros=[], mensagem="Livro excluído com sucesso", sucesso=True)
+        else:
+            return render_template('excluir.html', livros=[], mensagem="Erro ao excluir livro", sucesso=False)
+    
+    # Caso GET, obter os livros para exibição no formulário
+    response = requests.get(f'{API_BASE_URL}/api/v1/livros/')
+    livros = response.json() if response.status_code == 200 else []
+    return render_template('excluir.html', livros=livros)
 
 
 # Rota para resetar o banco de dados
